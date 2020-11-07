@@ -15,7 +15,7 @@
             v-model="tel"
           >
             <template #button>
-              <span @click="getmsg" v-show="getCode">获取验证码</span>
+              <p  @click="getmsg" v-show="getCode">获取验证码</p>
               <div class="time_box" v-show="timeOut">
                 获取验证码 (<van-count-down
                   ref="countDown"
@@ -97,9 +97,9 @@ export default {
     getmsg() {
       console.log("msg");
       if (this.tel == "" || !phoneTest(this.tel)) {
-        this.show = true;
+         this.$toast("手机号码格式不正确")
         setTimeout(() => {
-          this.show = false;
+         this.$toast("输入有误，请检查")
         }, 1500);
         return;
       }
@@ -151,6 +151,9 @@ export default {
         })
         .then((res) => {
           console.log(res);
+          if(res.code==200){
+              this.$router.push("/my")
+          }
         });
     },
   },
@@ -183,5 +186,10 @@ export default {
 }
 .changBottom {
   border-bottom: 0.01rem solid #fc5500;
+}
+.time_box{
+  // width: 2rem;
+  display: flex;
+  align-items: center;
 }
 </style>

@@ -114,9 +114,14 @@ export default {
          return res==this.query.keywords
      })
      if(ispush==-1){
- this.historyList.push(this.query.keywords)
+        this.historyList.unshift(this.query.keywords)
      }
-     console.log(ispush)
+     if(this.historyList.length>5){
+       this.historyList.pop()
+     }
+
+     console.log(ispush,this.historyList)
+     localStorage.setItem("SearchHistory",JSON.stringify(this.historyList))
       next()
   },
   methods: {

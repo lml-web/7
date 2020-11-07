@@ -48,11 +48,11 @@
       <div class="all_data_wrapper" @click="changes">
         <span>所在城市</span>
         <div class="name_data_right">
-          <van-field v-model="tem" input-align="right" size="mini" />
+          <van-field v-model="dizhi" input-align="right" size="mini" />
           <van-icon name="arrow" size="0.25rem" color="#b7b7b7" />
         </div>
       </div>
-      <div class="all_data_wrapper" @click="changeSubject">
+      <div class="all_data_wrapper">
         <span>学科</span>
         <div class="name_data_right" @click="$router.push('/changeSubject')">
           <span style="margin-right:0.03rem;" v-for="(i,k) in info.attr" :key="k" v-show="i.attr=='学科'"> {{i.attr_value}}  </span>
@@ -83,7 +83,7 @@
         type="date"
         :min-date="minDate"
         :max-date="maxDate"
-        @confirm="confirms"
+        @confirm="confirmTime"
         @cancel="cancels"
       />
     </van-popup>
@@ -122,6 +122,7 @@ Vue.use(Area);
 export default {
   data() {
     return {
+      dizhi:"",
       gradePopup:false,
       headshow: false,
       dateshow: false,
@@ -143,13 +144,15 @@ export default {
       sheng: "",
       tem: "",
       info:"",
-      columns:[]
+      columns:[],
+      queryCity:{province_id: "110000", city_id: "110100", district_id: "110101"}
     };
   },
   methods: {
 
     // 获取学科信息
     async attribute(){
+
 
       let res = await getAttribute()
          console.log(res)
@@ -194,9 +197,12 @@ export default {
     // 获取个人信息
     getInfo(){
 
+    
+
        this.$http.get("/api/app/userInfo").then((res) => {
       console.log(res);
       this.info=res.data
+      this.dizhi=res.data.province_name+" "+res.data.city_name+" "+res.data.district_name
     
     this.currentDate=new Date(res.data).toLocaleDateString().replaceAll('/','-')
    
@@ -281,13 +287,13 @@ export default {
       this.dateshow = true;
     },
     // 时间选择框的完成
-  async  confirm(val) {
+  async  confirmTime(val) {
       // console.log(val.toLocaleDateString());
       // console.log(this.nowdate);
-      if (val.toLocaleDateString() == this.nowdate) {
+      if (new Date(val).toLocaleDateString() == this.nowdate) {
         this.$toast("出生日期最少是当前日期的前一天");
       } else {
-        this.birthdate = val.toLocaleDateString();
+        this.birthdate = new Date(val).toLocaleDateString();
         this.birthdate=this.birthdate.replace(/\//g,'-')
         this.dateshow = false;
         
@@ -303,19 +309,36 @@ export default {
     cancels() {
       this.dateshow = false;
     },
+    
+    // 确认修改城市
+   async confirm(){
+    let res = await updateAjax(this.queryCity)
+    console.log(res)
+    if(res.code==200){
+
+      this.getInfo()
+      this.cityshow=false
+
+    }
+
+    },
+
     // 城市选择取消
     cancel() {
       this.cityshow = false;
     },
     // 当改变省份时
     async Picker(Picker, data, index) {
-      console.log(Picker, data, index);
+      console.log( data, index);
       if (index == 0) {
         this.sheng = data[index].name;
+        console.log(data[index])
+        this.queryCity.province_id=data[index].code
         var datases = await this.$http.get(
           "/api/app/sonArea/" + data[index].code
         );
         this.bm.city_list = {};
+        console.log( datases.data)
         datases.data.forEach((el) => {
           this.$set(this.bm.city_list, el.id, el.area_name);
         });
@@ -330,15 +353,25 @@ export default {
         datas.data.forEach((el) => {
           this.$set(this.bm.county_list, el.id, el.area_name);
         });
+        this.queryCity={
+          province_id: data[index].code, city_id:datases.data[0].id, district_id: datas.data[0].id
+        }
+        console.log(datases)
+
       } else if (index == 1) {
         // window.alert("jinini");
         this.city = data[index].name;
+        this.queryCity.city_id=data[index].code
         var data = await this.$http.get("/api/app/sonArea/" + data[index].code);
         data.data.forEach((el) => {
           this.$set(this.bm.county_list, el.id, el.area_name);
         });
+        console.log(data)
+        this.queryCity.district_id=data.data[0].code
       } else if (index == 2) {
         this.county = data[index].name;
+        this.queryCity.district_id=data[index].code
+        
         this.tem = this.sheng + "," + this.city + "," + this.county;
         // console.log(this.tem);
       }

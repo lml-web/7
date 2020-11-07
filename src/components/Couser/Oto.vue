@@ -4,20 +4,13 @@
     <header>
       <i @click="$router.go(-1)" class="el-icon-arrow-left"></i>
       <p>一对一辅导</p>
-      <i class="el-icon-search"></i>
+      <i @click="toSeach()" class="el-icon-search"></i>
     </header>
 
     <!-- 内容区域 -->
-    <div class="content">
-      <!-- 选项卡 -->
-      <div class="tab">
-        <p @click="tab(1)" :class="content == 1 ? 'bottom' : ''">
-          选择上课时间<span></span>
-        </p>
-        <p @click="tab(2)" :class="content == 2 ? 'bottom' : ''">
-          选择老师条件<span></span>
-        </p>
-      </div>
+      <div class="content">
+
+   
 
       <!-- 日期 -->
       <div v-show="content == 1" class="date">
@@ -80,6 +73,15 @@
 
       <!-- 列表 -->
       <div v-show="content == 0" class="mingxing">
+              <!-- 选项卡 -->
+      <div class="tab">
+        <p @click="tab(1)" :class="content == 1 ? 'bottom' : ''">
+          选择上课时间<span></span>
+        </p>
+        <p @click="tab(2)" :class="content == 2 ? 'bottom' : ''">
+          选择老师条件<span></span>
+        </p>
+      </div>
         <ul>
           <li @click="toDetail(i)" v-for="(i, k) in list" :key="k">
             <img :src="i.avatar" alt="" />
@@ -94,9 +96,11 @@
         </ul>
       </div>
 
+
       <!-- 选择老师条件区域 -->
 
       <div v-show="content == 2" class="Teacher_condition">
+     
         <div class="content">
           <p>老师类型</p>
           <ul>
@@ -154,7 +158,7 @@
           <button @click="screenCondition">确定</button>
         </div>
       </div>
-    </div>
+      </div>
 
     <LoginMessage @Login="LoginMessageShow = !LoginMessageShow"
       :show="LoginMessageShow"
@@ -226,7 +230,8 @@ export default {
           },
         });
       }
-      
+    
+
 
     },
 
@@ -237,6 +242,13 @@ export default {
       } else {
         this.content = i;
       }
+    },
+
+    // 跳转到搜索
+    toSearch(){
+
+
+
     },
 
     // 确定筛选
@@ -360,7 +372,7 @@ export default {
   background: white;
   height: 100%;
   // padding: 0.2rem;
-  overflow: auto;
+  // overflow: auto;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -454,7 +466,8 @@ header {
   overflow: auto;
   display: flex;
   flex-direction: column;
-  overflow: auto;
+  // overflow: auto;
+  // padding-top: 0.3rem;
 }
 
 // 选项卡

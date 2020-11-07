@@ -157,7 +157,7 @@ export default {
       //获取列表数据
       let { data } = await this.$http.get("/api/app/recommend/appIndex");
      
-      this.list = data.reverse()
+      this.list = data
        console.log(this.list);
     },
 

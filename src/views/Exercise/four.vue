@@ -17,7 +17,7 @@
       </div>
     </div>
     <!-- 空状态 -->
-    <NullState></NullState>
+    <Null :title="'暂无错题记录'"></Null>
   </div>
 </template>
 <script>
@@ -26,11 +26,11 @@ import { Dialog } from "vant";
 /* 引入头部 */
 import NavigationBar from "@/components/navigation/NavigationBar";
 /* 引入空状态 */
-import NullState from "@/components/nullState/NullState";
+import Null from "@/components/null";
 export default {
   components: {
     NavigationBar,
-    NullState,
+    Null,
   },
   data() {
     return {

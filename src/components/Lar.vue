@@ -7,9 +7,12 @@
       <van-tab title="待上课">
         <van-empty
           class="custom-image"
-          image="/img/yueke_loading.jpg"
+          image="https://wap.365msmk.com/img/no-message.8d3ca5af.png"
           description="还没有待上课记录哦"
+          image-size="1.78rem"
+         
         >
+       
         <van-button @click="onLogin" v-show="show" class="bottom-button">
             立即登录
           </van-button>
@@ -21,8 +24,9 @@
       <van-tab title="已上课">
         <van-empty
           class="custom-image"
-          image="/img/yueke_loading.jpg"
+          image="https://wap.365msmk.com/img/no-message.8d3ca5af.png"
           description="还没有上课记录哦"
+          image-size="1.78rem"
         >
          <van-button @click="onLogin" v-show="show" class="bottom-button">
             立即登录
@@ -35,8 +39,9 @@
       <van-tab title="已取消">
           <van-empty
           class="custom-image"
-          image="/img/yueke_loading.jpg"
+         image="https://wap.365msmk.com/img/no-message.8d3ca5af.png"
           description="还没有取消上课记录哦"
+          image-size="1.78rem"
         />
         
       </van-tab>
@@ -82,5 +87,9 @@ export default {
     background: orangered;
     color: white;
 }
+ .custom-image{
+   margin-top:1rem ;
+    
+  }
 </style>
 

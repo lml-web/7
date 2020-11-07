@@ -159,13 +159,13 @@ export default {
 
       }
      
-      let weekArr=["周一","周二","周三","周四","周五","周六","周日"]
+      let weekArr=["周日","周一","周二","周三","周四","周五","周六"]
       this.dayList= this.dayList.map((res)=>{
 
          
          return {
            week:weekArr[new Date(res).getDay()],
-           day:new Date(res).toLocaleDateString().replace("2020/",''),
+           day:new Date(res).getMonth()+'/'+new Date(res).getDate(),
            isdisabled:new Date(res).getDate()<new Date().getDate(),
          
          }

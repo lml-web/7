@@ -24,7 +24,7 @@
           ><a
             @click="titleStatus = 3"
             :class="{ titleActive: titleStatus == 3 }"
-            href="pinglun"
+            href="#pinglun"
             >课程评价</a
           ></span
         >
@@ -159,7 +159,7 @@
 <script>
 
     import QRCode from 'qrcodejs2'
-import { first, two, treen, cancelCollect, applyApi } from "../../utils/api";
+import { first, two, treen, cancelCollect, applyApi,downOrder } from "../../utils/api";
 import axios from "axios";
 export default {
   // 组件名称
@@ -278,13 +278,26 @@ export default {
 
     // 立即报名
     async apply() {
-      this.$router.push({
+      // this.$router.push({
         //跳转到确认订单页面
-        path: "/confirmOrder",
-        query: {
-          confirmOrderId: this.id,
-        },
-      });
+      //   path: "/confirmOrder",
+      //   query: {
+      //     confirmOrderId: this.id,
+      //   },
+       let res = await downOrder(
+           {shop_id:this.id, type: "3"}
+        )
+        console.log(res)
+        if(res.code==201){
+          this.$toast(res.msg)
+          this.couserInfo()
+        }else if(res.code==200){
+          this.$toast(res.data.msg)
+
+        }
+
+       
+      // });
     },
 
     // 立即学习

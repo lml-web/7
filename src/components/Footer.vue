@@ -22,7 +22,7 @@ export default {
               {
                   font:"iconfont icon-xiaoyuan-",
                   text:"首页",
-                  path:"/index"
+                  path:"/index",
               },
                {
                   font:"iconfont icon-kecheng",
@@ -86,7 +86,7 @@ export default {
         align-items: center;
         color: #B7B7B7;
         i{
-           font-size: 0.2rem;
+           font-size: 0.22rem;
         }
         p{
             font-size: 0.14rem;

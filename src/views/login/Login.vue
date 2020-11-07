@@ -161,7 +161,7 @@ export default {
         })
         .then((res) => {
           console.log(res);
-          if (res.data.code == 200) {
+          if (res.code == 200) {
             // 验证码倒计时
             this.$refs.countDown.start();
             // 验证码第一个样式消失
@@ -226,16 +226,18 @@ export default {
     },
     // 点击注册页面的登录
     async logondenglu() {
-      let res = await axios.post(" http://120.53.31.103:84/api/app/login", {
+      let res = await this.$http.post("/api/app/login", {
         mobile: this.tel,
         sms_code: this.msgCode,
-        client: 1,
+        
         type: 2,
       });
-      if (res.data.code == 200) {
-        localStorage.Token = res.data.data.remember_token;
-        localStorage.deviceid = res.data.data.device_id;
-        if (res.data.data.is_new == 1) {
+    
+        console.log(res,this.msgCode); // 是否注册过
+      if (res.code == 200) {
+        localStorage.Token = res.data.remember_token;
+        localStorage.deviceid = res.data.device_id;
+        if (res.data.is_new == 1) {
           this.$router.push("/setPass");
         } else {
           this.$router.push("/my");
@@ -247,7 +249,7 @@ export default {
         });
       }
 
-      console.log(res); // 是否注册过
+    
     },
     // 倒计时结束时触发样式改变
     timeend() {
